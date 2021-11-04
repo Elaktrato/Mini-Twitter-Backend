@@ -6,6 +6,18 @@ async function getMessageById(ident) {
     return message
 }
 
+async function addMessage(message) {
+    const newMessage = {
+        id: message.id || messages.length+1,
+        text: message.text || 'No message text',
+        date: message.date || 'No message date',
+        id_user: message.id_user || 'No user id',
+        picture_url: message.picture_url || 'https://placedog.net/200'
+    }
+    const result = messages.push(newMessage)
+    return getMessageById(newMessage.id)
+}
+
 
 async function getAllMessages() {
     // let jsonResponse = { error: "unknown" };
@@ -30,4 +42,4 @@ async function getSingleUser(id) {
 }
 
 
-module.exports = { getAllMessages, getMessageById, getSingleUser }
+module.exports = { getAllMessages, getMessageById, getSingleUser, addMessage }
