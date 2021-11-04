@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { getAllMessages, getSingleUser, getMessageById } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById } = require('./controllers');
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.get('/users', (req, res) => {
 
 app.get('/users/:id', async(req, res) => {
     try {
-        return res.send(await getSingleUser(req.params.id))
+        return res.send(await getUserById(req.params.id))
     } catch (err) {
         return res.status(400).send(err.message)
     }

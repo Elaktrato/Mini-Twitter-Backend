@@ -11,11 +11,10 @@ async function getAllMessages() {
     return messages
 }
 
-async function getSingleUser(id) {
-    const userIndex = users.findIndex((element) => element === id);
-    console.log(userIndex)
-    return userIndex
+async function getUserById(id) {
+    const user = users.find(u => u.id.toString() === id.toString())
+    return user
 }
 
 
-module.exports = { getAllMessages, getMessageById, getSingleUser }
+module.exports = { getAllMessages, getMessageById, getUserById }
