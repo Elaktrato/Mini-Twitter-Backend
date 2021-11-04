@@ -16,5 +16,19 @@ async function getUserById(id) {
     return user
 }
 
+async function createUser(userData) {
+    const newUser = {
+        id: users.length + 1,
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        image_url: userData.image_url
+    }
+    if (newUser) {
+        users.push(newUser)
+    }
+    return newUser
+}
 
-module.exports = { getAllMessages, getMessageById, getUserById }
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser }
