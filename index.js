@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { getAllMessages, getSingleUser } = require('./controllers');
+const { getAllMessages, getSingleUser, getMessageById } = require('./controllers');
 
 const app = express();
 
@@ -17,8 +17,13 @@ app.get('/messages', async(req, res) => {
     }
 })
 
-app.get('/messages/:id', (req, res) => {
-    res.send('not implemented yet')
+app.get('/messages/:id', async(req, res) => {
+    try {
+        const result = await getMessageById(req.params.id)
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(406).send(err)
+    }
 })
 
 app.get('/users', (req, res) => {

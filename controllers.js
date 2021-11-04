@@ -1,5 +1,11 @@
 const { users } = require('./usersDb')
-const { messages } = require('./messagesDb');
+const { messages } = require('./messagesDb')
+
+async function getMessageById(ident) {
+    const message = messages.find(m => m.id.toString() === ident.toString())
+    return message
+}
+
 
 async function getAllMessages() {
     // let jsonResponse = { error: "unknown" };
@@ -23,4 +29,5 @@ async function getSingleUser(id) {
     return userIndex
 }
 
-module.exports = { getAllMessages, getSingleUser }
+
+module.exports = { getAllMessages, getMessageById, getSingleUser }
