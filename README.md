@@ -1,16 +1,29 @@
 # Mini Twitter API Guide
 
-## API Routes
+## Table of Contents
+[/users](https://github.com/Elaktrato/Mini-Twitter-Backend#users)
+- [GET all users](https://github.com/Elaktrato/Mini-Twitter-Backend#get-all-users)
+- [GET one user by id](https://github.com/Elaktrato/Mini-Twitter-Backend#get-one-user-by-id)
+- [GET all messages belonging to one user](https://github.com/Elaktrato/Mini-Twitter-Backend#get-all-messages-belonging-to-one-user)
+- [POST one user](https://github.com/Elaktrato/Mini-Twitter-Backend#post-one-user)
 
-### /users
-#### GET all users
+[/messages](https://github.com/Elaktrato/Mini-Twitter-Backend#messages)
+- [GET all messages](https://github.com/Elaktrato/Mini-Twitter-Backend#get-all-messages)
+- [GET one message by id](https://github.com/Elaktrato/Mini-Twitter-Backend#get-one-message-by-id)
+- [POST one message](https://github.com/Elaktrato/Mini-Twitter-Backend#post-one-message)
+- [DELETE one message by id](https://github.com/Elaktrato/Mini-Twitter-Backend#delete-one-message-by-id)
+
+[/me - GET Random User](https://github.com/Elaktrato/Mini-Twitter-Backend#me)
+
+## /users
+### GET all users
 | URL  | Method  |
 | ------------ | ------------ |
 | https://elak-mini-twitter.herokuapp.com/users/  | `GET`  |
 
 Returns all users in the database as an array of objects.
 
-#### GET one user by id
+### GET one user by id
 
 | URL  | Method  |
 | ------------ | ------------ |
@@ -28,7 +41,7 @@ Returns user whose `user_id` matches the `${id}` provided in the URL.
   "profile_picture": "http://placekitten.com/200/200"
 }
 ```
-#### GET all messages belonging to one user
+### GET all messages belonging to one user
 
 | URL  | Method  |
 | ------------ | ------------ |
@@ -50,7 +63,7 @@ Returns all messages for a user whose `user_id` matches the `${id}` provided in 
   }
 ]
 ```
-#### POST one user
+### POST one user
 
 | URL  | Method  |
 | ------------ | ------------ |
@@ -81,15 +94,15 @@ Adds a new user to the database. Requires `username`, `email`, `password`. `prof
 ```
 
 
-### /messages
-#### GET all messages
+## /messages
+### GET all messages
 | URL  | Method  |
 | ------------ | ------------ |
 | https://elak-mini-twitter.herokuapp.com/messages/  | `GET`  |
 
 Returns all messages in the database as an array of objects.
 
-#### GET one message by id
+### GET one message by id
 
 | URL  | Method  |
 | ------------ | ------------ |
@@ -108,7 +121,7 @@ Returns message whose `message_id` matches the `${id}` provided in the URL.
   "message_id": 2
 }
 ```
-#### POST one message
+### POST one message
 
 | URL  | Method  |
 | ------------ | ------------ |
@@ -137,14 +150,15 @@ Adds a new message to the database. Requires `message`, `user_id`. `image_url` c
   "message_id": 9 //message_id is generated automatically
 }
 ```
-#### DELETE one message by id
+### DELETE one message by id
 
 | URL  | Method  |
 | ------------ | ------------ |
 | https://elak-mini-twitter.herokuapp.com/messages/${id}  | `DELETE`  |
 
 Deletes message whose `message_id` matches the `${id}` provided in the URL. Returns `true`
-### /me
+
+## /me
 | URL  | Method  |
 | ------------ | ------------ |
 | https://elak-mini-twitter.herokuapp.com/me/  | `GET`  |
