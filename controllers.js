@@ -8,7 +8,7 @@ async function getMessageById(ident) {
 
 async function addMessage(message) {
     const newMessage = {
-        id: message.id || messages.length+1,
+        id: message.id || messages.length + 1,
         text: message.text || 'No message text',
         date: message.date || 'No message date',
         id_user: message.id_user || 'No user id',
@@ -28,5 +28,19 @@ async function getUserById(id) {
     return user
 }
 
+async function createUser(userData) {
+    const newUser = {
+        id: users.length + 1,
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        image_url: userData.image_url
+    }
+    if (newUser) {
+        users.push(newUser)
+    }
+    return newUser
+}
 
-module.exports = { getAllMessages, getMessageById, getUserById, addMessage }
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage }
