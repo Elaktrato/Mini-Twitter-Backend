@@ -2,7 +2,7 @@ const { getUsers } = require('./controllers')
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages, getRandomUser } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages, getRandomUser, deleteUserMessages } = require('./controllers');
 
 const app = express();
 
@@ -22,6 +22,15 @@ app.get('/messages', async(req, res) => {
 app.get('/messages/:id', async(req, res) => {
     try {
         const result = await getMessageById(req.params.id)
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(406).send(err)
+    }
+})
+
+app.delete('/messages/:id', async(req, res) => {
+    try {
+        const result = await deleteUserMessages(req.params.id)
         res.status(200).send(result)
     } catch (err) {
         res.status(406).send(err)

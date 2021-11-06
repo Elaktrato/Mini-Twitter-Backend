@@ -99,4 +99,9 @@ async function getRandomUser() {
     return result
 }
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages, getRandomUser }
+async function deleteUserMessages(id) {
+    await db.query("DELETE FROM messages WHERE messages.id = $1", [id])
+    return true;
+}
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages, getRandomUser, deleteUserMessages }
