@@ -40,16 +40,13 @@ async function getMessageById(id) {
 
 async function addMessage(message) {
     const newMessage = {
-        id: message.id || messages.length + 1,
-        text: message.text || 'No message text',
-        date: message.date || 'No message date',
-        id_user: message.id_user || 'No user id',
-        picture_url: message.picture_url || 'https://placedog.net/200'
+        message: message.message,
+        id_user: message.id_user,
+        image_url: message.image_url || 'https://placedog.net/200'
     }
-    const result = messages.push(newMessage)
-    return getMessageById(newMessage.id)
+    const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
+    return getMessageById(result.id)
 }
-
 
 async function getAllMessages() {
     const result = await db.query(`
