@@ -34,7 +34,7 @@ async function getMessageById(id) {
         FROM messages
         LEFT JOIN users ON users.id = messages.id_user 
         WHERE messages.id = $1;`, [id]
-        );
+    );
     return message;
 }
 
@@ -89,4 +89,14 @@ async function getUsers() {
     return users
 }
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers }
+async function getUserMessages(id) {
+    // const result = await db.query(
+    //     `SELECT users.name username, messages.id message_id, message, date, messages.image_url
+    // FROM messages
+    // LEFT JOIN users
+    // on $1 = messages.id_user
+    // WHERE id_user = $1;`, [id]);
+    // return result;
+}
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages }
