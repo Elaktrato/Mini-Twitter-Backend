@@ -39,13 +39,19 @@ async function getMessageById(id) {
 }
 
 async function addMessage(message) {
-    const newMessage = {
-        message: message.message,
-        id_user: message.user_id,
-        image_url: message.image_url || 'https://placedog.net/200'
+    const userID = message.user_id
+    const checkForUser = await db.query(`SELECT TRUE FROM users WHERE users.id = $1`, [userID])
+
+    if (checkForUser && message.message !== "") {
+        const newMessage = {
+            message: message.message,
+            id_user: message.user_id,
+            image_url: message.image_url || 'https://placedog.net/200'
+        }
+        const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
+        return getMessageById(result.id)
     }
-    const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
-    return getMessageById(result.id)
+    return error;
 }
 
 async function getAllMessages(query) {
