@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const { getAllMessages, getUserById, getMessageById, createUser } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById, createUser, addMessage } = require('./controllers');
 
 const app = express();
 
@@ -21,6 +21,16 @@ app.get('/messages/:id', async(req, res) => {
     try {
         const result = await getMessageById(req.params.id)
         res.status(200).send(result)
+    } catch (err) {
+        res.status(406).send(err)
+    }
+})
+
+app.post('/messages', async(req, res) => {
+    try {
+        const newMessage = req.body
+        const result = await addMessage(newMessage)
+        res.status(201).send(result)
     } catch (err) {
         res.status(406).send(err)
     }

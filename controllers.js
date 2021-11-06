@@ -6,6 +6,18 @@ async function getMessageById(ident) {
     return message
 }
 
+async function addMessage(message) {
+    const newMessage = {
+        id: message.id || messages.length + 1,
+        text: message.text || 'No message text',
+        date: message.date || 'No message date',
+        id_user: message.id_user || 'No user id',
+        picture_url: message.picture_url || 'https://placedog.net/200'
+    }
+    const result = messages.push(newMessage)
+    return getMessageById(newMessage.id)
+}
+
 
 async function getAllMessages() {
     return messages
@@ -31,4 +43,4 @@ async function createUser(userData) {
 }
 
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser }
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage }
