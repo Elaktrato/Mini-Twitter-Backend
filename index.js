@@ -1,6 +1,7 @@
-const {getUsers} = require('./controllers')
+const { getUsers } = require('./controllers')
 const express = require('express');
 const cors = require('cors');
+const dotenv = require('dotenv').config();
 const { getAllMessages, getUserById, getMessageById, createUser, addMessage } = require('./controllers');
 
 const app = express();
@@ -37,7 +38,7 @@ app.post('/messages', async(req, res) => {
     }
 })
 
-app.get('/users', async (req, res) => {
+app.get('/users', async(req, res) => {
     res.send(await getUsers())
 })
 
