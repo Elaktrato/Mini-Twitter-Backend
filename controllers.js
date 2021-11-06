@@ -57,22 +57,22 @@ async function getAllMessages() {
 }
 
 async function getUserById(id) {
-    const user = users.find(u => u.id.toString() === id.toString())
-    return user
+    const result = await db.one(
+        `SELECT id userid, name username, email, password, users.image_url profile_picture
+        FROM users
+        WHERE users.id = $1;`, [id]);
+    return result;
 }
 
 async function createUser(userData) {
     const newUser = {
-        id: users.length + 1,
         name: userData.name,
         email: userData.email,
         password: userData.password,
-        image_url: userData.image_url
+        image_url: userData.image_url || 'https://placedog.net/200'
     }
-    if (newUser) {
-        users.push(newUser)
-    }
-    return newUser
+    const result = await db.one('INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING id', newUser)
+    return getUserById(result.id);
 }
 
 async function getUsers() {
