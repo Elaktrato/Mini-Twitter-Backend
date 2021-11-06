@@ -28,9 +28,14 @@ if (process.env.DATABASE_URL) {
 }
 
 
-async function getMessageById(ident) {
-    const message = messages.find(m => m.id.toString() === ident.toString())
-    return message
+async function getMessageById(id) {
+    const message = await db.one(
+        `SELECT users.name username, messages.message, messages.date, messages.image_url, messages.id message_id
+        FROM messages
+        LEFT JOIN users ON users.id = messages.id_user 
+        WHERE messages.id = $1;`, [id]
+        );
+    return message;
 }
 
 async function addMessage(message) {
@@ -47,9 +52,8 @@ async function addMessage(message) {
 
 
 async function getAllMessages() {
-
     const result = await db.query(`
-    select messages.id, message, date, messages.image_url 
+    select users.name username, messages.id message_id, message, date, messages.image_url 
     from messages 
     left join users 
     on users.id = messages.id_user`);
