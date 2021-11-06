@@ -137,3 +137,9 @@ Adds a new message to the database. Requires `message`, `user_id`. `image_url` c
   "message_id": 9 //message_id is generated automatically
 }
 ```
+### /me
+| URL  | Method  |
+| ------------ | ------------ |
+| https://elak-mini-twitter.herokuapp.com/me/  | `GET`  |
+
+Returns a random user from the database.
