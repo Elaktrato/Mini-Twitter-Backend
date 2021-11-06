@@ -2,7 +2,7 @@ const { getUsers } = require('./controllers')
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const { getAllMessages, getUserById, getMessageById, createUser, addMessage } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages } = require('./controllers');
 
 const app = express();
 
@@ -52,6 +52,15 @@ app.get('/users/:id', async(req, res) => {
     } catch (err) {
         return res.status(400).send(err.message)
     }
+})
+
+app.get('/users/:id/messages', async(req, res) => {
+    res.send('not implemented yet')
+        // try {
+        //     return res.send(await getUserMessages(req.params.id))
+        // } catch (err) {
+        //     return res.status(400).send(err.message)
+        // }
 })
 
 app.listen(PORT, () => {
