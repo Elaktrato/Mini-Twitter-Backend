@@ -2,7 +2,7 @@ const { getUsers } = require('./controllers')
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages, getRandomUser } = require('./controllers');
 
 const app = express();
 

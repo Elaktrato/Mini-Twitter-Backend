@@ -8,23 +8,23 @@ console.log(process.env.DATABASE_URL);
 
 let db;
 if (process.env.DATABASE_URL) {
-  db = pgp({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-  });
+    db = pgp({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+    });
 } else {
-  const username = process.env.DB_USER;
-  const password = process.env.DB_PASSWORD;
-  const host = process.env.DB_HOST;
-  const port = process.env.DB_PORT;
+    const username = process.env.DB_USER;
+    const password = process.env.DB_PASSWORD;
+    const host = process.env.DB_HOST;
+    const port = process.env.DB_PORT;
 
-  let uri = `postgres://${username}:${password}@${host}:${port}/${process.env.DB}`;
-  console.log(uri);
+    let uri = `postgres://${username}:${password}@${host}:${port}/${process.env.DB}`;
+    console.log(uri);
 
-  db = pgp({
-    connectionString: uri,
-    ssl: { rejectUnauthorized: false },
-  });
+    db = pgp({
+        connectionString: uri,
+        ssl: { rejectUnauthorized: false },
+    });
 }
 
 
@@ -54,7 +54,7 @@ async function getAllMessages() {
     from messages 
     left join users 
     on users.id = messages.id_user`);
-  return result;
+    return result;
 }
 
 async function getUserById(id) {
@@ -77,11 +77,10 @@ async function createUser(userData) {
 }
 
 async function getUsers() {
-  const users = await db.query("Select id user_id, name username, email, image_url profile_picture from users"
-  );
-  console.log(users);
+    const users = await db.query("Select id user_id, name username, email, image_url profile_picture from users");
+    console.log(users);
 
-  return users;
+    return users;
 }
 
 async function getUserMessages(id) {
@@ -95,4 +94,9 @@ async function getUserMessages(id) {
 
 }
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages }
+async function getRandomUser() {
+    const result = await db.query(`SELECT * FROM users ORDER BY random() LIMIT 1;`)
+    return result
+}
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages, getRandomUser }
