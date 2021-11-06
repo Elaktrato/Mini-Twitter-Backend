@@ -27,26 +27,30 @@ if (process.env.DATABASE_URL) {
   });
 }
 
-async function getMessageById(ident) {
-  const message = messages.find((m) => m.id.toString() === ident.toString());
-  return message;
+
+async function getMessageById(id) {
+    const message = await db.one(
+        `SELECT users.name username, messages.message, messages.date, messages.image_url, messages.id message_id
+        FROM messages
+        LEFT JOIN users ON users.id = messages.id_user 
+        WHERE messages.id = $1;`, [id]
+    );
+    return message;
 }
 
 async function addMessage(message) {
-  const newMessage = {
-    id: message.id || messages.length + 1,
-    text: message.text || "No message text",
-    date: message.date || "No message date",
-    id_user: message.id_user || "No user id",
-    picture_url: message.picture_url || "https://placedog.net/200",
-  };
-  const result = messages.push(newMessage);
-  return getMessageById(newMessage.id);
+    const newMessage = {
+        message: message.message,
+        id_user: message.id_user,
+        image_url: message.image_url || 'https://placedog.net/200'
+    }
+    const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
+    return getMessageById(result.id)
 }
 
 async function getAllMessages() {
-  const result = await db.query(`
-    select messages.id, message, date, messages.image_url 
+    const result = await db.query(`
+    select users.name username, messages.id message_id, message, date, messages.image_url 
     from messages 
     left join users 
     on users.id = messages.id_user`);
@@ -54,22 +58,22 @@ async function getAllMessages() {
 }
 
 async function getUserById(id) {
-  const user = users.find((u) => u.id.toString() === id.toString());
-  return user;
+    const result = await db.one(
+        `SELECT id userid, name username, email, password, users.image_url profile_picture
+        FROM users
+        WHERE users.id = $1;`, [id]);
+    return result;
 }
 
 async function createUser(userData) {
-  const newUser = {
-    id: users.length + 1,
-    name: userData.name,
-    email: userData.email,
-    password: userData.password,
-    image_url: userData.image_url,
-  };
-  if (newUser) {
-    users.push(newUser);
-  }
-  return newUser;
+    const newUser = {
+        name: userData.name,
+        email: userData.email,
+        password: userData.password,
+        image_url: userData.image_url || 'https://placedog.net/200'
+    }
+    const result = await db.one('INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING id', newUser)
+    return getUserById(result.id);
 }
 
 async function getUsers() {
@@ -80,11 +84,14 @@ async function getUsers() {
   return users;
 }
 
-module.exports = {
-  getAllMessages,
-  getMessageById,
-  getUserById,
-  createUser,
-  addMessage,
-  getUsers,
-};
+async function getUserMessages(id) {
+    // const result = await db.query(
+    //     `SELECT users.name username, messages.id message_id, message, date, messages.image_url
+    // FROM messages
+    // LEFT JOIN users
+    // on $1 = messages.id_user
+    // WHERE id_user = $1;`, [id]);
+    // return result;
+}
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages }
