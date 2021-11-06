@@ -48,20 +48,38 @@ async function addMessage(message) {
     return getMessageById(result.id)
 }
 
-async function getAllMessages() {
-    const result = await db.query(`
+async function getAllMessages(query) {
+    let pageNumber = query.page;
+    let result;
+
+    if (pageNumber) {
+        let messageRows = query.rows || 10
+        let pageRowOffset = ((pageNumber - 1) * messageRows)
+
+        result = await db.query(`
     select users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url 
     from messages 
     left join users 
-    on users.id = messages.id_user`);
-    return result;
+    ON users.id = messages.id_user
+    OFFSET $1 ROWS
+    LIMIT $2;`, [pageRowOffset, messageRows])
+        return result;
+    } else {
+        result = await db.query(`
+    select users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url 
+    from messages 
+    left join users 
+    ON users.id = messages.id_user`)
+        return result;
+    }
+
 }
 
 async function getUserById(id) {
     const result = await db.one(
-        `SELECT id user_id, name username, email, users.image_url profile_picture
-        FROM users
-        WHERE users.id = $1;`, [id]);
+        `
+            SELECT id user_id, name username, email, users.image_url profile_picture FROM users WHERE users.id = $1;
+            `, [id]);
     return result;
 }
 
@@ -85,17 +103,16 @@ async function getUsers() {
 
 async function getUserMessages(id) {
     let result = await db.query(
-        `SELECT users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url
-    FROM messages
-    LEFT JOIN users
-    ON users.id = messages.id_user
-    WHERE users.id = $1 AND messages.id_user = $1`, [id]);
+        `
+            SELECT users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url FROM messages LEFT JOIN users ON users.id = messages.id_user WHERE users.id = $1 AND messages.id_user = $1 `, [id]);
     return result;
 
 }
 
 async function getRandomUser() {
-    const result = await db.query(`SELECT * FROM users ORDER BY random() LIMIT 1;`)
+    const result = await db.query(`
+            SELECT * FROM users ORDER BY random() LIMIT 1;
+            `)
     return result
 }
 
