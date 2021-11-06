@@ -12,6 +12,7 @@
 - [GET one message by id](https://github.com/Elaktrato/Mini-Twitter-Backend#get-one-message-by-id)
 - [POST one message](https://github.com/Elaktrato/Mini-Twitter-Backend#post-one-message)
 - [DELETE one message by id](https://github.com/Elaktrato/Mini-Twitter-Backend#delete-one-message-by-id)
+- [Pagination of messages](https://github.com/Elaktrato/Mini-Twitter-Backend#pagination-of-messages)
 
 [/me - GET Random User](https://github.com/Elaktrato/Mini-Twitter-Backend#me)
 
@@ -164,3 +165,154 @@ Deletes message whose `message_id` matches the `${id}` provided in the URL. Retu
 | https://elak-mini-twitter.herokuapp.com/me/  | `GET`  |
 
 Returns a random user from the database.
+
+
+### Pagination of messages
+
+| URL  | Method  |
+| ------------ | ------------ |
+| https://elak-mini-twitter.herokuapp.com/messages?page=1&rows=5  | `GET`  |
+
+This will return an array of messages with a pagination.
+Using ?page in your query you can adjust from which page you are querying your messages.
+
+So if your query is going to be:
+https://elak-mini-twitter.herokuapp.com/messages?page=1
+
+You will get the first 10 results of the page number 1.
+Which should look like this:
+```
+[
+  {
+    "username": "Elon Musk",
+    "user_id": 3,
+    "message_id": 2,
+    "message": "Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.",
+    "date": "2021-11-06T08:14:06.599Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": "Jane Doe",
+    "user_id": 2,
+    "message_id": 3,
+    "message": "Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.",
+    "date": "2021-11-06T08:14:06.599Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": "Elon Musk",
+    "user_id": 3,
+    "message_id": 4,
+    "message": "Bla bla bla to be fair",
+    "date": "2021-11-06T09:43:26.228Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": "John Doe",
+    "user_id": 1,
+    "message_id": 5,
+    "message": "And a new test message added",
+    "date": "2021-11-06T09:44:45.735Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": "John Doe",
+    "user_id": 1,
+    "message_id": 6,
+    "message": "Another test from Radu",
+    "date": "2021-11-06T11:47:53.790Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": null,
+    "user_id": null,
+    "message_id": 7,
+    "message": "Another test from Radu",
+    "date": "2021-11-06T12:04:13.717Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": "John Doe",
+    "user_id": 4,
+    "message_id": 8,
+    "message": "Another test from Radu",
+    "date": "2021-11-06T12:07:14.812Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": null,
+    "user_id": null,
+    "message_id": 10,
+    "message": "Some test message by Erik",
+    "date": "2021-11-06T13:26:40.329Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": null,
+    "user_id": null,
+    "message_id": 11,
+    "message": "another test message by Erik",
+    "date": "2021-11-06T13:26:44.659Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": "Robert Whittaker",
+    "user_id": 5,
+    "message_id": 12,
+    "message": "another test message by Erik",
+    "date": "2021-11-06T13:26:56.932Z",
+    "image_url": "http://placekitten.com/200/200"
+  }
+]
+```
+
+Using ?page=1&rows you can adjust how many messages you want to get per page.
+
+For example, getting 5 messages per page would have a query like this:
+https://elak-mini-twitter.herokuapp.com/messages?page=1&rows=5
+
+and would return you:
+```
+[
+  {
+    "username": "Elon Musk",
+    "user_id": 3,
+    "message_id": 2,
+    "message": "Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.",
+    "date": "2021-11-06T08:14:06.599Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": "Jane Doe",
+    "user_id": 2,
+    "message_id": 3,
+    "message": "Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.",
+    "date": "2021-11-06T08:14:06.599Z",
+    "image_url": "http://placekitten.com/200/200"
+  },
+  {
+    "username": "Elon Musk",
+    "user_id": 3,
+    "message_id": 4,
+    "message": "Bla bla bla to be fair",
+    "date": "2021-11-06T09:43:26.228Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": "John Doe",
+    "user_id": 1,
+    "message_id": 5,
+    "message": "And a new test message added",
+    "date": "2021-11-06T09:44:45.735Z",
+    "image_url": "https://placedog.net/200"
+  },
+  {
+    "username": "John Doe",
+    "user_id": 1,
+    "message_id": 6,
+    "message": "Another test from Radu",
+    "date": "2021-11-06T11:47:53.790Z",
+    "image_url": "https://placedog.net/200"
+  }
+]
+```
