@@ -269,6 +269,7 @@ Which should look like this:
 ```
 
 Using ?page=1&rows you can adjust how many messages you want to get per page.
+This requires ?page to be used. Having just ?rows will be ignored and instead return you all messages.
 
 For example, getting 5 messages per page would have a query like this:
 
