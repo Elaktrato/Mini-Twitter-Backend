@@ -8,23 +8,23 @@ console.log(process.env.DATABASE_URL);
 
 let db;
 if (process.env.DATABASE_URL) {
-  db = pgp({
-    connectionString: process.env.DATABASE_URL,
-    ssl: { rejectUnauthorized: false },
-  });
+    db = pgp({
+        connectionString: process.env.DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+    });
 } else {
-  const username = process.env.DB_USER;
-  const password = process.env.DB_PASSWORD;
-  const host = process.env.DB_HOST;
-  const port = process.env.DB_PORT;
+    const username = process.env.DB_USER;
+    const password = process.env.DB_PASSWORD;
+    const host = process.env.DB_HOST;
+    const port = process.env.DB_PORT;
 
-  let uri = `postgres://${username}:${password}@${host}:${port}/${process.env.DB}`;
-  console.log(uri);
+    let uri = `postgres://${username}:${password}@${host}:${port}/${process.env.DB}`;
+    console.log(uri);
 
-  db = pgp({
-    connectionString: uri,
-    ssl: { rejectUnauthorized: false },
-  });
+    db = pgp({
+        connectionString: uri,
+        ssl: { rejectUnauthorized: false },
+    });
 }
 
 
@@ -41,7 +41,7 @@ async function getMessageById(id) {
 async function addMessage(message) {
     const newMessage = {
         message: message.message,
-        id_user: message.id_user,
+        id_user: message.user_id,
         image_url: message.image_url || 'https://placedog.net/200'
     }
     const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
@@ -50,16 +50,16 @@ async function addMessage(message) {
 
 async function getAllMessages() {
     const result = await db.query(`
-    select users.name username, messages.id message_id, message, date, messages.image_url 
+    select users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url 
     from messages 
     left join users 
     on users.id = messages.id_user`);
-  return result;
+    return result;
 }
 
 async function getUserById(id) {
     const result = await db.one(
-        `SELECT id userid, name username, email, password, users.image_url profile_picture
+        `SELECT id user_id, name username, email, users.image_url profile_picture
         FROM users
         WHERE users.id = $1;`, [id]);
     return result;
@@ -67,31 +67,36 @@ async function getUserById(id) {
 
 async function createUser(userData) {
     const newUser = {
-        name: userData.name,
+        name: userData.username,
         email: userData.email,
         password: userData.password,
-        image_url: userData.image_url || 'https://placedog.net/200'
+        image_url: userData.profile_picture || 'https://placedog.net/200'
     }
     const result = await db.one('INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING id', newUser)
     return getUserById(result.id);
 }
 
 async function getUsers() {
-  const users = await db.query("Select id user_id, name username, email, image_url profile_picture from users"
-  );
-  console.log(users);
+    const users = await db.query("Select id user_id, name username, email, image_url profile_picture from users");
+    console.log(users);
 
-  return users;
+    return users;
 }
 
 async function getUserMessages(id) {
-    // const result = await db.query(
-    //     `SELECT users.name username, messages.id message_id, message, date, messages.image_url
-    // FROM messages
-    // LEFT JOIN users
-    // on $1 = messages.id_user
-    // WHERE id_user = $1;`, [id]);
-    // return result;
+    let result = await db.query(
+        `SELECT users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url
+    FROM messages
+    LEFT JOIN users
+    ON users.id = messages.id_user
+    WHERE users.id = $1 AND messages.id_user = $1`, [id]);
+    return result;
+
+}
+
+async function getRandomUser() {
+    const result = await db.query(`SELECT * FROM users ORDER BY random() LIMIT 1;`)
+    return result
 }
 
 async function deleteUserMessages(id) {
@@ -99,4 +104,4 @@ async function deleteUserMessages(id) {
     return true;
 }
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages, deleteUserMessages }
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages, getRandomUser, deleteUserMessages }
