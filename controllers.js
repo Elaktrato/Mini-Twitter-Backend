@@ -41,7 +41,7 @@ async function getMessageById(id) {
 async function addMessage(message) {
     const newMessage = {
         message: message.message,
-        id_user: message.id_user,
+        id_user: message.user_id,
         image_url: message.image_url || 'https://placedog.net/200'
     }
     const result = await db.one('INSERT INTO messages(${this:name}) VALUES(${this:csv}) RETURNING id', newMessage)
@@ -67,10 +67,10 @@ async function getUserById(id) {
 
 async function createUser(userData) {
     const newUser = {
-        name: userData.name,
+        name: userData.username,
         email: userData.email,
         password: userData.password,
-        image_url: userData.image_url || 'https://placedog.net/200'
+        image_url: userData.profile_picture || 'https://placedog.net/200'
     }
     const result = await db.one('INSERT INTO users(${this:name}) VALUES(${this:csv}) RETURNING id', newUser)
     return getUserById(result.id);
