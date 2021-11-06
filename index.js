@@ -63,6 +63,14 @@ app.get('/users/:id/messages', async(req, res) => {
         // }
 })
 
+app.get('/me', async(req, res) => {
+    try {
+        return res.send(await getRandomUser())
+    } catch (err) {
+        return res.status(500).send(err.message)
+    }
+})
+
 app.listen(PORT, () => {
     console.log("API running on " + PORT)
 })
