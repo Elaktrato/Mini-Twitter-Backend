@@ -55,12 +55,12 @@ app.get('/users/:id', async(req, res) => {
 })
 
 app.get('/users/:id/messages', async(req, res) => {
-    res.send('not implemented yet')
-        // try {
-        //     return res.send(await getUserMessages(req.params.id))
-        // } catch (err) {
-        //     return res.status(400).send(err.message)
-        // }
+    // res.send('not implemented yet')
+    try {
+        return res.send(await getUserMessages(req.params.id))
+    } catch (err) {
+        return res.status(400).send(err.message)
+    }
 })
 
 app.listen(PORT, () => {
