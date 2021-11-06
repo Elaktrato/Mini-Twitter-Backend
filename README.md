@@ -177,7 +177,9 @@ This will return an array of messages with a pagination.
 Using ?page in your query you can adjust from which page you are querying your messages.
 
 So if your query is going to be:
-https://elak-mini-twitter.herokuapp.com/messages?page=1
+| URL  | Method  |
+| ------------ | ------------ |
+| https://elak-mini-twitter.herokuapp.com/messages?page=1  | `GET`  |
 
 You will get the first 10 results of the page number 1.
 Which should look like this:
@@ -269,7 +271,10 @@ Which should look like this:
 Using ?page=1&rows you can adjust how many messages you want to get per page.
 
 For example, getting 5 messages per page would have a query like this:
-https://elak-mini-twitter.herokuapp.com/messages?page=1&rows=5
+
+| URL  | Method  |
+| ------------ | ------------ |
+| https://elak-mini-twitter.herokuapp.com/messages?page=1&rows=5  | `GET`  |
 
 and would return you:
 ```
