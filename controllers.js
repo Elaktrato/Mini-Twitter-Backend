@@ -50,7 +50,7 @@ async function addMessage(message) {
 
 async function getAllMessages() {
     const result = await db.query(`
-    select users.name username, messages.id message_id, message, date, messages.image_url 
+    select users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url 
     from messages 
     left join users 
     on users.id = messages.id_user`);
@@ -59,7 +59,7 @@ async function getAllMessages() {
 
 async function getUserById(id) {
     const result = await db.one(
-        `SELECT id userid, name username, email, password, users.image_url profile_picture
+        `SELECT id user_id, name username, email, users.image_url profile_picture
         FROM users
         WHERE users.id = $1;`, [id]);
     return result;
@@ -87,13 +87,14 @@ async function getUsers() {
 }
 
 async function getUserMessages(id) {
-    // const result = await db.query(
-    //     `SELECT users.name username, messages.id message_id, message, date, messages.image_url
-    // FROM messages
-    // LEFT JOIN users
-    // on $1 = messages.id_user
-    // WHERE id_user = $1;`, [id]);
-    // return result;
+    let result = await db.query(
+        `SELECT users.name username, users.id user_id, messages.id message_id, message, date, messages.image_url
+    FROM messages
+    LEFT JOIN users
+    ON users.id = messages.id_user
+    WHERE users.id = $1 AND messages.id_user = $1`, [id]);
+    return result;
+
 }
 
 module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers, getUserMessages }
