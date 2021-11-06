@@ -2,7 +2,7 @@ const { getUsers } = require('./controllers')
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv').config();
-const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages } = require('./controllers');
+const { getAllMessages, getUserById, getMessageById, createUser, addMessage, getUserMessages, getRandomUser } = require('./controllers');
 
 const app = express();
 
@@ -60,6 +60,14 @@ app.get('/users/:id/messages', async(req, res) => {
         return res.send(await getUserMessages(req.params.id))
     } catch (err) {
         return res.status(400).send(err.message)
+    }
+})
+
+app.get('/me', async(req, res) => {
+    try {
+        return res.send(await getRandomUser())
+    } catch (err) {
+        return res.status(500).send(err.message)
     }
 })
 
