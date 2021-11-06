@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 8080;
 
 app.get('/messages', async(req, res) => {
     try {
-        return res.send(await getAllMessages())
+        return res.send(await getAllMessages(req.query))
     } catch (err) {
         return res.status(400).send(err.message)
     }
