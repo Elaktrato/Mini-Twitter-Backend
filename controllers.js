@@ -42,5 +42,14 @@ async function createUser(userData) {
     return newUser
 }
 
+async function getUsers() {
+    // const users = await db.query('SELECT ${columns:name} FROM ${table:name}', {
+    //     columns: ['id', 'title', 'description'],
+    //     table: 'books'
+    // });
+    console.log(users)
 
-module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage }
+    return users
+}
+
+module.exports = { getAllMessages, getMessageById, getUserById, createUser, addMessage, getUsers }
