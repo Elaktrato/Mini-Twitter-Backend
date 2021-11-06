@@ -137,6 +137,13 @@ Adds a new message to the database. Requires `message`, `user_id`. `image_url` c
   "message_id": 9 //message_id is generated automatically
 }
 ```
+#### DELETE one message by id
+
+| URL  | Method  |
+| ------------ | ------------ |
+| https://elak-mini-twitter.herokuapp.com/messages/${id}  | `DELETE`  |
+
+Deletes message whose `message_id` matches the `${id}` provided in the URL. Returns `true`
 ### /me
 | URL  | Method  |
 | ------------ | ------------ |
