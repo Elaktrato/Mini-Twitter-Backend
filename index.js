@@ -1,3 +1,4 @@
+const {getUsers} = require('./controllers')
 const express = require('express');
 const cors = require('cors');
 
@@ -16,8 +17,8 @@ app.get('/messages/:id', (req, res) => {
     res.send('not implemented yet')
 })
 
-app.get('/users', (req, res) => {
-    res.send('not implemented yet')
+app.get('/users', async (req, res) => {
+    res.send(await getUsers())
 })
 
 app.get('/users/:id', (req, res) => {
