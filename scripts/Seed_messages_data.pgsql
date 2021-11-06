@@ -1,0 +1,3 @@
+insert into messages (message, id_user, image_url) values('Strain be thirsty Goblinses. Barahir lied answer darkest dealing he is collared uttered invented likely while.', 1, 'http://placekitten.com/200/200');
+insert into messages (message, id_user, image_url) values('Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.', 3, 'http://placekitten.com/200/200');
+insert into messages (message, id_user, image_url) values('Trick served together birds ought Dory vest pages. There is only one Lord of the Ring.', 2, 'http://placekitten.com/200/200');

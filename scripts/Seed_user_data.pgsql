@@ -1,0 +1,3 @@
+insert into users (name, email, password, image_url) values('John Doe', 'john@doe.com', 'somepw', 'http://placekitten.com/200/200');
+insert into users (name, email, password, image_url) values('Jane Doe', 'jane@doe.com', 'otherpw', 'http://placekitten.com/200/200');
+insert into users (name, email, password, image_url) values('Elon Musk', 'elon@musk.com', 'afnavsd', 'http://placekitten.com/200/200');
